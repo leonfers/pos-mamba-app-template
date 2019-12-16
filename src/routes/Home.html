@@ -1,31 +1,41 @@
 <AppBarModifier title="Home" />
 
 <p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-  <br>
-  <br>
-  <a href="/about">About</a>
+  Clique no botão para disparar o Dialog
 </p>
 
-<Printable ref:printable>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde dicta at quisquam doloremque sunt soluta architecto debitis, sit quidem placeat qui nam expedita quod, mollitia suscipit porro saepe recusandae.
-</Printable>
+<ConfirmationDialog
+	ref:confirmationDialog bind:isOpen
+  title="Teste o Keystroke"
+	on:positive="console.log('on:positive')" on:negative="console.log('on:negative')"
+>
+    <!-- <Keystroke key="enter" on:keystroke="console.log('on:positive via button')" /> -->
+  {#if isOpen}
+    <Keystroke key="enter" on:keystroke="console.log('on:positive via button')" />
+  {/if}
+</ConfirmationDialog>
 
 <Button
   size="full"
   bottom
-  on:click="refs.printable.print()"
+  on:click="refs.confirmationDialog.open()"
   shortcut="enter"
 >
-  Imprimir! (press. enter)
+  Open Dialog
 </Button>
 
 <script>
   export default {
     components: {
       AppBarModifier: '@mamba/appbar/Modifier.html',
-      Printable: '@mamba/printable',
       Button: '@mamba/button',
+      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
+      Keystroke: '@mamba/app/Keystroke.html',
+    },
+    data() {
+      return {
+        isOpen: false,
+      };
     },
   };
 </script>
